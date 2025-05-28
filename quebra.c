@@ -24,19 +24,9 @@ int main() {
     fread(imagem_gray, sizeof(uint8_t), ALTURA * LARGURA, entrada_bin);
     fclose(entrada_bin);
 
-    // Exemplo de preenchimento com valores 1 a 320*240 (só para teste, opcional)
-    /*
-    for (int i = 0; i < ALTURA; i++) {
-        for (int j = 0; j < LARGURA; j++) {
-            imagem_gray[i][j] = i * LARGURA + j + 1;
-        }
-    }
-    */
-
-    // Percorrer todos os elementos tratando cada um como centro de uma submatriz 5x5
-    for (int i = 0; i < 1; i++) {
-        for (int j = 0; j < LARGURA; j++) {
-
+    // Processar e imprimir submatriz 5x5 centrada em cada pixel da linha 0
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 20; j++) {
             int submatriz[5][5];
 
             for (int dx = -2; dx <= 2; dx++) {
@@ -45,8 +35,15 @@ int main() {
                 }
             }
 
-            // Exemplo: imprimir o valor central da submatriz
-            printf("Centro da submatriz 5x5 em (%d, %d): %d\n", i, j, submatriz[2][2]);
+            // Imprimir submatriz 5x5
+            printf("Submatriz 5x5 centrada em (%d, %d):\n", i, j);
+            for (int x = 0; x < 5; x++) {
+                for (int y = 0; y < 5; y++) {
+                    printf("%3d ", submatriz[x][y]);
+                }
+                printf("\n");
+            }
+            printf("\n");
         }
     }
 

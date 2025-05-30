@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+
+#define LARGURA 320
+#define ALTURA 240
+
+// Matriz reconstruída final
+uint8_t imagem_resultado[ALTURA][LARGURA];
+
+// Define o deslocamento do pixel central da matriz 5x5 para cada tipo de filtro
+int filtro_offset(char tipo_filtro) {
+    switch (tipo_filtro) {
+        case '2': return 0; // canto superior esquerdo (ex: (0,0) dentro do 5x5)
+        case '3': return 1; // centro da 3x3 (ex: (1,1) está no (2,2) do 5x5)
+        case '5': return 2; // centro da 5x5
+        default: return 2;  // fallback seguro
+    }
+}
+
+// Função para remontar a imagem
+void remontar_imagem(uint8_t matriz5x5[5][5], int i, int j, char tipo_filtro) {
+    int offset = filtro_offset(tipo_filtro);
+
+    // Posição destino na imagem
+    int x = i;
+    int y = j;
+
+    // Só preenche se estiver dentro dos limites da imagem
+    if (x >= 0 && x < ALTURA && y >= 0 && y < LARGURA) {
+        imagem_resultado[x][y] = matriz5x5[offset + 2][offset + 2];  // desloca para posição real dentro da 5x5
+    }
+}
+
+/*
+// Exemplo de como processar a imagem original com um filtro 3x3
+for (int i = 0; i < ALTURA; i++) {
+    for (int j = 0; j < LARGURA; j++) {
+        // Aqui você extrairia a submatriz 3x3 e enviaria ao coprocessador
+        // O coprocessador retorna uma matriz 5x5
+        uint8_t matriz_processada[5][5];
+        // ... (recebe do coprocessador, via buffer ou função específica)
+
+        // Atualiza o pixel correspondente da imagem reconstruída
+        remontar_imagem(matriz_processada, i, j, '3');  // filtro 3x3
+    }
+}
+*/

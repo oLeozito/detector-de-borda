@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdint.h>
+
+#define LARGURA 320
+#define ALTURA 240
+
+uint8_t imagem_gray[ALTURA][LARGURA];
+
+// Função segura para acessar a imagem
+uint8_t get_valor(uint8_t matriz[ALTURA][LARGURA], int i, int j) {
+    if (i >= 0 && i < ALTURA && j >= 0 && j < LARGURA) {
+        return matriz[i][j];
+    } else {
+        return 0;
+    }
+}
+
+int main() {
+    FILE *entrada_bin = fopen("imagem_gray.bin", "rb");
+    if (!entrada_bin) {
+        perror("Erro ao abrir imagem_gray.bin");
+        return 1;
+    }
+
+    fread(imagem_gray, sizeof(uint8_t), ALTURA * LARGURA, entrada_bin);
+    fclose(entrada_bin);
+
+    // Processar e imprimir submatriz 2x2 começando em cada pixel das primeiras linhas
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 20; j++) {
+            int submatriz[2][2];
+
+            for (int dx = 0; dx < LINHAS; dx++) {
+                for (int dy = 0; dy < COLUNAS; dy++) {
+                    submatriz[dx][dy] = get_valor(imagem_gray, i + dx, j + dy);
+                }
+            }
+
+            // Imprimir submatriz 2x2
+            printf("Submatriz 2x2 com canto superior esquerdo em (%d, %d):\n", i, j);
+            for (int x = 0; x < 2; x++) {
+                for (int y = 0; y < 2; y++) {
+                    printf("%3d ", submatriz[x][y]);
+                }
+                printf("\n");
+            }
+            printf("\n");
+        }
+    }
+
+    return 0;
+}

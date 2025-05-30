@@ -26,12 +26,12 @@ int main() {
     fclose(entrada_bin);
 
     // Processar e imprimir submatriz 2x2 começando em cada pixel das primeiras linhas
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 20; j++) {
+    for (int i = 0; i < LINHAS; i++) {
+        for (int j = 0; j < COLUNAS; j++) {
             int submatriz[2][2];
 
-            for (int dx = 0; dx < LINHAS; dx++) {
-                for (int dy = 0; dy < COLUNAS; dy++) {
+            for (int dx = 0; dx < 1; dx++) {
+                for (int dy = 0; dy < 1; dy++) {
                     submatriz[dx][dy] = get_valor(imagem_gray, i + dx, j + dy);
                 }
             }

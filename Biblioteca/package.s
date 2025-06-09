@@ -45,8 +45,8 @@ enviar_dados_para_fpga:
     str     r3, [r7, #20]       @  Salva RETURN_ptr
     
     @  Imprime mensagem inicial
-    ldr     r0, =msg_enviando
-    bl      puts
+    @ldr     r0, =msg_enviando
+    @bl      puts
     
     @  Inicializa contador do loop (i = 0)
     mov     r3, #0
@@ -153,12 +153,12 @@ espera_confirmacao:
     ldr     r3, [r7, #16]       @  Carrega i
     add     r0, r3, #1          @  i + 1 (para progresso)
     mov     r1, #25             @  Total
-    bl      print_progress_bar
+    @bl      print_progress_bar
     
     @  Delay
     movw    r0, #34464          @  100ms em microssegundos
     movt    r0, #1
-    bl      usleep
+    @bl      usleep
     
     @  Incrementa contador
     ldr     r3, [r7, #16]       @  Carrega i
@@ -169,8 +169,8 @@ espera_confirmacao:
 
 fim_envio:
     @  Imprime mensagem final
-    ldr     r0, =msg_dados_enviados
-    bl      puts
+    @ldr     r0, =msg_dados_enviados
+    @bl      puts
     
     @  Restaura stack e retorna
     add     sp, sp, #32
@@ -209,10 +209,10 @@ receber_dados_da_fpga:
     str     r3, [r7, #16]       @  Salva RETURN_ptr
     
     @  Imprime mensagens iniciais
-    ldr     r0, =msg_processando
-    bl      puts
-    ldr     r0, =msg_recebendo
-    bl      puts
+    @ldr     r0, =msg_processando
+    @bl      puts
+    @ldr     r0, =msg_recebendo
+    @bl      puts
     
     @  Inicializa contador (indice = 0)
     mov     r3, #0
@@ -367,19 +367,19 @@ espera_ack_fpga:
     movge   r3, #25             @  Limita a 25
     mov     r0, r3              @  Progresso atual
     mov     r1, #25             @  Total
-    bl      print_progress_bar
+    @bl      print_progress_bar
     
     @  Delay
     movw    r0, #34464          @  100ms
     movt    r0, #1
-    bl      usleep
+    @bl      usleep
     
     b       loop_recebimento    @  Volta para o loop
 
 fim_recebimento:
     @  Imprime mensagem final
-    ldr     r0, =msg_dados_recebidos
-    bl      puts
+    @ldr     r0, =msg_dados_recebidos
+    @bl      puts
     
     @  Restaura stack e retorna
     add     sp, sp, #24

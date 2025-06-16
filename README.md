@@ -9,7 +9,7 @@ Relatório técnico do Problema #3 da disciplina de MI - Sistemas Digitais (2025
 ### Autores
 * João Marcelo Nascimento Fernandes
 * Leonardo Oliveira Almeida da Cruz
-* João Gabriel Santos Silv
+* João Gabriel Santos Silva
 
 ---
 
@@ -95,7 +95,7 @@ Siga os passos abaixo para compilar e rodar o projeto.
 
 1.  **Clone o Repositório:**
     ```bash
-    git clone [URL_DO_SEU_REPOSITORIO]
+    git clone https://github.com/oLeozito/detector-de-borda.git
     cd [NOME_DO_DIRETORIO]
     ```
 

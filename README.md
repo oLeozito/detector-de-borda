@@ -23,16 +23,16 @@ Relatório técnico do Problema #3 da disciplina de MI - Sistemas Digitais (2025
 
 ### **1. Introdução**
 
-[cite_start]A detecção de bordas é uma técnica fundamental no campo de processamento de imagens e visão computacional. [cite_start]Seu objetivo é identificar pontos em uma imagem onde a intensidade da luminosidade muda bruscamente, o que geralmente corresponde aos contornos de objetos. [cite_start]Para essa finalidade, diversos algoritmos baseados em operadores de gradiente, como Sobel, Prewitt e Roberts, e operadores de segunda derivada, como o Laplaciano, são amplamente utilizados.
+A detecção de bordas é uma técnica fundamental no campo de processamento de imagens e visão computacional. Seu objetivo é identificar pontos em uma imagem onde a intensidade da luminosidade muda bruscamente, o que geralmente corresponde aos contornos de objetos. Para essa finalidade, diversos algoritmos baseados em operadores de gradiente, como Sobel, Prewitt e Roberts, e operadores de segunda derivada, como o Laplaciano, são amplamente utilizados.
 
-[cite_start]Este projeto teve como objetivo principal o desenvolvimento de um programa em linguagem C para aplicar diferentes filtros de detecção de borda em uma imagem de 320x240 pixels[cite: 21, 25]. [cite_start]Uma restrição fundamental era a utilização de um coprocessador aritmético, previamente desenvolvido para aceleração de multiplicação matricial [cite: 19][cite_start], e de uma biblioteca em Assembly para mediar a comunicação com o hardware. A plataforma de hardware utilizada foi o kit de desenvolvimento DE1-SoC, que integra um processador ARM (HPS) e uma FPGA.
+Este projeto teve como objetivo principal o desenvolvimento de um programa em linguagem C para aplicar diferentes filtros de detecção de borda em uma imagem de 320x240 pixels. Uma restrição fundamental era a utilização de um coprocessador aritmético, previamente desenvolvido para aceleração de multiplicação matricial, e de uma biblioteca em Assembly para mediar a comunicação com o hardware. A plataforma de hardware utilizada foi o kit de desenvolvimento DE1-SoC, que integra um processador ARM (HPS) e uma FPGA.
 
 ### **2. Arquitetura da Solução**
 
 A solução foi concebida sob o paradigma de **co-design Hardware-Software**, dividindo as responsabilidades entre o processador (HPS) e a lógica programável (FPGA) para otimizar o desempenho.
 
 * **HPS (Hard Processor System - ARM Cortex-A9):**
-    * [cite_start]**Aplicação Principal (`main.c`):** Escrita em C, é responsável por toda a lógica de alto nível:
+    * **Aplicação Principal (`main.c`):** Escrita em C, é responsável por toda a lógica de alto nível:
         1.  Carregar a imagem de entrada no formato BMP.
         2.  [cite_start]Realizar o pré-processamento, convertendo-a para escala de cinza com 8 bits por pixel.
         3.  Apresentar um menu interativo ao usuário para a seleção do filtro desejado.
@@ -44,11 +44,11 @@ A solução foi concebida sob o paradigma de **co-design Hardware-Software**, di
     * **Coprocessador de Convolução (Verilog):** Contém um módulo de hardware dedicado para realizar a operação de convolução 2D. Ele recebe uma janela de pixels (até 5x5) e um kernel de filtro, realizando a multiplicação e soma de forma massivamente paralela e retornando o valor do pixel central processado.
 
 * **Comunicação HPS-FPGA:**
-    * [cite_start]**Lightweight HPS-to-FPGA Bridge:** A comunicação é feita através desta ponte de barramento, que permite ao processador ARM acessar os registradores do coprocessador na FPGA como se fossem posições de memória.
-    * [cite_start]**Mapeamento de Memória (`mmap`):** A aplicação em C, através de uma função em Assembly, utiliza a chamada de sistema `mmap` para mapear o espaço de endereços físicos da ponte para o espaço de endereços virtuais do processo, obtendo um ponteiro para acesso direto ao hardware.
+    * **Lightweight HPS-to-FPGA Bridge:** A comunicação é feita através desta ponte de barramento, que permite ao processador ARM acessar os registradores do coprocessador na FPGA como se fossem posições de memória.
+    * **Mapeamento de Memória (`mmap`):** A aplicação em C, através de uma função em Assembly, utiliza a chamada de sistema `mmap` para mapear o espaço de endereços físicos da ponte para o espaço de endereços virtuais do processo, obtendo um ponteiro para acesso direto ao hardware.
 
 * **Biblioteca de Interface (`package.s`):**
-    * [cite_start]Escrita em Assembly ARM, esta biblioteca implementa as funções de baixo nível `enviar_dados_para_fpga` e `receber_dados_da_fpga`. Ela é a responsável por implementar o protocolo de comunicação (handshake) com o coprocessador, escrevendo e lendo diretamente nos registradores mapeados.
+    * Escrita em Assembly ARM, esta biblioteca implementa as funções de baixo nível `enviar_dados_para_fpga` e `receber_dados_da_fpga`. Ela é a responsável por implementar o protocolo de comunicação (handshake) com o coprocessador, escrevendo e lendo diretamente nos registradores mapeados.
 
 ### **3. Detalhes da Implementação**
 
@@ -62,7 +62,7 @@ A função `apply_filter` orquestra a aplicação de cada filtro. Para operadore
 
 #### **3.2. Interface de Comunicação (`package.s`)**
 
-[cite_start]A biblioteca `package.s` é o núcleo da interação hardware-software. Ela implementa um protocolo de handshake para garantir uma comunicação síncrona e livre de erros.
+A biblioteca `package.s` é o núcleo da interação hardware-software. Ela implementa um protocolo de handshake para garantir uma comunicação síncrona e livre de erros.
 
 * **`enviar_dados_para_fpga`:**
     1.  O software (ARM) verifica um bit de status no registrador de retorno da FPGA para saber se ela está pronta para receber um novo dado.
@@ -80,7 +80,7 @@ A função `apply_filter` orquestra a aplicação de cada filtro. Para operadore
 
 ### **4. Pré-requisitos**
 
-[cite_start]Esta seção detalha o software e hardware necessários para compilar e executar o projeto.
+Esta seção detalha o software e hardware necessários para compilar e executar o projeto.
 
 * **Hardware:**
     * Kit de Desenvolvimento Terasic DE1-SoC.
@@ -91,7 +91,7 @@ A função `apply_filter` orquestra a aplicação de cada filtro. Para operadore
 
 ### **5. Compilação e Execução**
 
-[cite_start]Siga os passos abaixo para compilar e rodar o projeto.
+Siga os passos abaixo para compilar e rodar o projeto.
 
 1.  **Clone o Repositório:**
     ```bash
@@ -119,14 +119,14 @@ A função `apply_filter` orquestra a aplicação de cada filtro. Para operadore
 
 ### **6. Resultados e Análise**
 
-[cite_start]O sistema foi testado com sucesso, gerando imagens de saída para cada um dos cinco filtros implementados. A análise visual dos resultados corrobora a teoria do processamento de imagens:
+O sistema foi testado com sucesso, gerando imagens de saída para cada um dos cinco filtros implementados. A análise visual dos resultados corrobora a teoria do processamento de imagens:
 
 | Filtro | Análise dos Resultados |
 | :--- | :--- |
 | **Sobel (3x3 e 5x5)** | Ambos detectaram bem as bordas. [cite_start]A versão 5x5 produziu bordas mais espessas e com melhor supressão de ruído, conforme esperado de um kernel maior. |
-| **Prewitt (3x3)** | [cite_start]O resultado foi muito similar ao Sobel 3x3, mas com um pouco mais de sensibilidade a ruído devido aos seus pesos uniformes. |
-| **Roberts (2x2)** | [cite_start]Realçou melhor as bordas finas e diagonais, mas as linhas de contorno ficaram mais "quebradas" em comparação com o Sobel, demonstrando sua maior suscetibilidade a distorções. |
-| **Laplaciano (5x5)** | [cite_start]Como um operador de segunda derivada, ele identificou áreas de rápida mudança de intensidade, resultando em bordas mais finas (às vezes duplas) e com um realce significativo do ruído presente na imagem. |
+| **Prewitt (3x3)** | O resultado foi muito similar ao Sobel 3x3, mas com um pouco mais de sensibilidade a ruído devido aos seus pesos uniformes. |
+| **Roberts (2x2)** | Realçou melhor as bordas finas e diagonais, mas as linhas de contorno ficaram mais "quebradas" em comparação com o Sobel, demonstrando sua maior suscetibilidade a distorções. |
+| **Laplaciano (5x5)** | Como um operador de segunda derivada, ele identificou áreas de rápida mudança de intensidade, resultando em bordas mais finas (às vezes duplas) e com um realce significativo do ruído presente na imagem. |
 
 ### **7. Conclusão**
 
@@ -136,4 +136,4 @@ O trabalho demonstrou de forma eficaz como tarefas computacionalmente intensivas
 
 ### **8. Referências**
 
-[1] MATURANA, Patrícia Salles. [cite_start]**Algoritmos de detecção de bordas implementados em FPGA.** Ilha Solteira: Universidade Estadual Paulista “Júlio de Mesquita Filho”, 2010. Disponível em: <https://www.feis.unesp.br/Home/departamentos/engenhariaeletrica/pos-graduacao/273-dissertacao_patricia.pdf>.
+[1] MATURANA, Patrícia Salles. **Algoritmos de detecção de bordas implementados em FPGA.** Ilha Solteira: Universidade Estadual Paulista “Júlio de Mesquita Filho”, 2010. Disponível em: <https://www.feis.unesp.br/Home/departamentos/engenhariaeletrica/pos-graduacao/273-dissertacao_patricia.pdf>.

@@ -7,9 +7,9 @@
 Relatório técnico do Problema #3 da disciplina de MI - Sistemas Digitais (2025.1), do curso de Engenharia de Computação da Universidade Estadual de Feira de Santana (UEFS).
 
 ### Autores
-* [Nome Completo do Integrante 1]
-* [Nome Completo do Integrante 2]
-* [Nome Completo do Integrante 3]
+* João Marcelo Nascimento Fernandes
+* Leonardo Oliveira Almeida da Cruz
+* João Gabriel Santos Silv
 
 ---
 
